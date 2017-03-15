@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  zotero:
+    container_name: zotero_sync
+    build: .
+    restart: always
+    image: zotero_sync
+    ports:
+    - "50150:80"
+    - "50153:443"
+    volumes:
+    - ./tmp:/volume
+

@@ -99,9 +99,20 @@ RUN service mysql start && service memcached start && \
 # docker server startup
 EXPOSE 80 443
 
-CMD service mysql start && \
-    service uwsgi start && \
-    service apache2 start && \
-    service memcached start && \
-    bash -c "/usr/sbin/runsvdir-start&" && \
-    /bin/bash 
+RUN mkdir -p /srv/web-library
+
+RUN apt-get install -y supervisor
+
+ADD supervisor/supervisord.conf /etc/supervisor/supervisord.conf
+ADD memcached/memcached.conf /etc/memcached.conf
+
+RUN mkdir -p /var/run/uwsgi/app/zss
+# CMD service mysql start && \
+#     service uwsgi start && \
+#     service apache2 start && \
+#     service memcached start && \
+#     bash -c "/usr/sbin/runsvdir-start &" && \
+#     /bin/bash
+
+
+CMD [ "supervisord", "-c", "/etc/supervisor/supervisord.conf" ]
