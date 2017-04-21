@@ -10,7 +10,7 @@ services:
     - "50150:80"
     - "50153:443"
     volumes:
-    - /local/docker/volumes/zotero_dataserver/zotero:/srv/zotero
-    - /local/docker/volumes/zotero_dataserver/mysql:/var/lib/mysql
+    - ./zotero_dataserver/zotero:/srv/zotero
+    - ./zotero_dataserver/mysql:/var/lib/mysql
 
 
