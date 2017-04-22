@@ -65,6 +65,7 @@ RUN git clone --depth=1 git://git.27o.de/zss /srv/zotero/zss && \
     chown www-data:www-data /srv/zotero/storage
 
 ADD zss/zss.yaml /etc/uwsgi/apps-available/
+ADD zss/zss.ini /etc/uwsgi/
 ADD zss/ZSS.pm   /srv/zotero/zss/
 ADD zss/zss.psgi /srv/zotero/zss/
 RUN ln -s /etc/uwsgi/apps-available/zss.yaml /etc/uwsgi/apps-enabled 
