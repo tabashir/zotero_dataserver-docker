@@ -6,7 +6,7 @@ MAINTAINER Gabriele Facciolo <gfacciol@gmail.com>
 RUN apt-get update && apt-get install -y \
     apache2 libapache2-mod-php5 memcached zendframework php5-cli php5-memcached php5-mysql php5-curl \
     apache2 uwsgi uwsgi-plugin-psgi libplack-perl libdigest-hmac-perl libjson-xs-perl libfile-util-perl \
-    libapache2-mod-uwsgi libswitch-perl \
+    libapache2-mod-uwsgi libswitch-perl mysql-client\
     git gnutls-bin runit wget curl net-tools vim build-essential
 
 # Zotero
@@ -23,8 +23,8 @@ RUN mkdir -p /srv/zotero/log/upload && \
     chown www-data: /var/log/httpd/api-errors
 
 # Dataserver
-RUN git clone --depth=1 git://git.27o.de/dataserver /srv/zotero/dataserver && \
-    chown www-data:www-data /srv/zotero/dataserver/tmp
+RUN git clone --depth=1 git://git.27o.de/dataserver /srv/zotero/dataserver
+RUN chown www-data:www-data /srv/zotero/dataserver/tmp
 #RUN cd /srv/zotero/dataserver/include && rm -r Zend && ln -s /usr/share/php/libzend-framework-php/Zend
 RUN cd /srv/zotero/dataserver/include && rm -r Zend && ln -s /usr/share/php/Zend
 
@@ -35,9 +35,9 @@ ADD apache/zotero.key /etc/apache2/
 ADD apache/zotero.cert /etc/apache2/
 ADD apache/sites-zotero.conf /etc/apache2/sites-enabled/zotero.conf
 ADD apache/dot.htaccess  /srv/zotero/dataserver/htdocs/\.htaccess
-RUN a2enmod ssl && \
-    a2enmod rewrite # && \
-    # a2ensite zotero
+RUN a2enmod ssl
+RUN a2enmod rewrite
+#RUN a2ensite zotero
 
 #Mysql
 # ADD mysql/zotero.cnf /etc/mysql/conf.d/zotero.cnf
@@ -49,7 +49,8 @@ RUN a2enmod ssl && \
 
 
 # Zotero Configuration
-ADD dataserver/dbconnect.inc.php dataserver/config.inc.php /srv/zotero/dataserver/include/config/
+ADD dataserver/dbconnect.inc.php /srv/zotero/dataserver/include/config/
+ADD dataserver/config.inc.php /srv/zotero/dataserver/include/config/
 ADD dataserver/sv/zotero-download /etc/sv/zotero-download
 ADD dataserver/sv/zotero-upload   /etc/sv/zotero-upload  
 ADD dataserver/sv/zotero-error    /etc/sv/zotero-error   
@@ -57,8 +58,6 @@ RUN cd /etc/service && \
     ln -s ../sv/zotero-download /etc/service/ && \
     ln -s ../sv/zotero-upload /etc/service/ && \
     ln -s ../sv/zotero-error /etc/service/ 
-
-
 
 # ZSS
 RUN git clone --depth=1 git://git.27o.de/zss /srv/zotero/zss && \
