@@ -3,7 +3,7 @@ function Zotero_dbConnectAuth($db) {
         $charset = '';
 
         if ($db == 'master') {
-                $host = 'localhost';
+                $host = 'db';
                 $port = 3306;
                 $db = 'zotero_master';
                 $user = 'zotero';

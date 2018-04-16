@@ -39,12 +39,12 @@ RUN a2enmod ssl && \
     a2ensite zotero
 
 #Mysql
-ADD mysql/zotero.cnf /etc/mysql/conf.d/zotero.cnf
-ADD mysql/setup_db /srv/zotero/dataserver/misc/setup_db
-RUN /etc/init.d/mysql start && \
-    mysqladmin -u root password password && \
-    cd /srv/zotero/dataserver/misc/ && \
-    ./setup_db
+# ADD mysql/zotero.cnf /etc/mysql/conf.d/zotero.cnf
+# ADD mysql/setup_db /srv/zotero/dataserver/misc/setup_db
+# RUN /etc/init.d/mysql start && \
+    # mysqladmin -u root password password && \
+    # cd /srv/zotero/dataserver/misc/ && \
+    # ./setup_db
 
 
 # Zotero Configuration
@@ -89,12 +89,12 @@ ADD patches/uwsgi /etc/init.d/uwsgi
 ADD patches/add_user /srv/zotero/dataserver/admin/add_user
 
 # TEST ADD USER: test PASSWORD: test
-RUN service mysql start && service memcached start && \
-    cd /srv/zotero/dataserver/admin && \
-    ./add_user 101 test test && \
-    ./add_user 102 test2 test2 && \
-    ./add_group -o test -f members -r members -e members testgroup && \
-    ./add_groupuser testgroup test2 member 
+# RUN service mysql start && service memcached start && \
+#     cd /srv/zotero/dataserver/admin && \
+#     ./add_user 101 test test && \
+#     ./add_user 102 test2 test2 && \
+#     ./add_group -o test -f members -r members -e members testgroup && \
+#     ./add_groupuser testgroup test2 member 
 
 
 # docker server startup

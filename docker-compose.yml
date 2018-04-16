@@ -1,7 +1,8 @@
 version: '2'
 
 services:
-  zotero:
+
+  zotero_sync:
     container_name: zotero_sync
     build: .
     restart: always
@@ -9,8 +10,25 @@ services:
     ports:
     - "50150:80"
     - "50153:443"
+    links:
+      - zotero_db:db
     volumes:
-    - ./zotero_dataserver/zotero:/srv/zotero
-    - ./zotero_dataserver/mysql:/var/lib/mysql
+      - ./docker/data/storage:/srv/zotero/storage:rw
+    env_file:
+      - environment.env
 
-
+  zotero_db:
+    image: mariadb:10
+    container_name: zotero_db
+    restart: always
+    volumes:
+      - ./docker/data/mariadb:/var/lib/mysql:rw
+      - ./docker/db_init/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+      - ./docker/db_init/002_master.sql:/docker-entrypoint-initdb.d/002_master.sql:ro
+      - ./docker/db_init/003_coredata.sql:/docker-entrypoint-initdb.d/003_coredata.sql:ro
+      - ./docker/db_init/004_shard_data.sql:/docker-entrypoint-initdb.d/004_shard_data.sql:ro
+      - ./docker/db_init/005_shard.sql:/docker-entrypoint-initdb.d/005_shard.sql:ro
+      - ./docker/db_init/006_triggers.sql:/docker-entrypoint-initdb.d/006_triggers.sql:ro
+      - ./docker/db_init/007_ids.sql:/docker-entrypoint-initdb.d/007_ids.sql:ro
+    env_file:
+      - environment.env
