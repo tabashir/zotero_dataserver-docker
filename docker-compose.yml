@@ -10,8 +10,8 @@ services:
     depends_on:
       - zotero_db
     ports:
-      - "50150:80"
-      - "50153:443"
+      - "80:80"
+      - "443:443"
     links:
       - zotero_db:db
     volumes:
