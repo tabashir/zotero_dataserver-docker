@@ -2,7 +2,10 @@
 
 This image was build following the instructions for installing a Zotero dataserver at (http://git.27o.de/dataserver/about/), which is an updated procedure of [this document](https://github.com/Panzerkampfwagen/dataserver/blob/master/misc/Zotero_Data_Server_Installation_Debian.pdf).
 
-NOTE: This is now running jessie. Later versions of linux kernel cause segfaults running bash on wheezy
+NOTE: 
+
+* This is now running jessie. Later versions of linux kernel cause segfaults running bash on wheezy
+* This is designed to run behind an SSL proxy (nginx/haproxy) as it exposes plain http
 
 ## Build the image
 

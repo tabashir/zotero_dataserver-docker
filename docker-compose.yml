@@ -10,12 +10,11 @@ services:
     depends_on:
       - zotero_db
     ports:
-      - "80:80"
-      - "443:443"
+      - "50150:80"
     links:
       - zotero_db:db
     volumes:
-      - ./docker/data/storage:/srv/zotero/storage:rw
+      - ../data/storage:/srv/zotero/storage:rw
     env_file:
       - environment.env
 
@@ -24,7 +23,7 @@ services:
     container_name: zotero_db
     restart: always
     volumes:
-      - ./docker/data/mariadb:/var/lib/mysql:rw
+      - ../data/mariadb:/var/lib/mysql:rw
       - ./docker/db_init/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
       - ./docker/db_init/002_master.sql:/docker-entrypoint-initdb.d/002_master.sql:ro
       - ./docker/db_init/003_coredata.sql:/docker-entrypoint-initdb.d/003_coredata.sql:ro
@@ -32,5 +31,6 @@ services:
       - ./docker/db_init/005_shard.sql:/docker-entrypoint-initdb.d/005_shard.sql:ro
       - ./docker/db_init/006_triggers.sql:/docker-entrypoint-initdb.d/006_triggers.sql:ro
       - ./docker/db_init/007_ids.sql:/docker-entrypoint-initdb.d/007_ids.sql:ro
+      - ./docker/db_init/008_create_user.sql:/docker-entrypoint-initdb.d/008_create_user.sql:ro
     env_file:
       - environment.env

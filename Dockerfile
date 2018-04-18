@@ -33,6 +33,7 @@ RUN cd /srv/zotero/dataserver/include && rm -r Zend && ln -s /usr/share/php/Zend
 #certtool -s --load-privkey /etc/apache2/zotero.key --outfile /etc/apache2/zotero.cert
 ADD apache/zotero.key /etc/apache2/
 ADD apache/zotero.cert /etc/apache2/
+RUN rm -f /etc/apache2/sites-enabled/*.conf
 ADD apache/sites-zotero.conf /etc/apache2/sites-enabled/zotero.conf
 ADD apache/dot.htaccess  /srv/zotero/dataserver/htdocs/\.htaccess
 RUN a2enmod ssl
